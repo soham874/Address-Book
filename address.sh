@@ -57,7 +57,9 @@ function InitMenu(){
 			echo "Updating backup for address book...done"
 			cp $inputFile backup$inputFile
 			printf "\n"
-			echo "Thank you for using address book.";;
+			echo "Thank you for using address book."
+			exit 0
+			;;
 		*)
 			echo "Wrong choice. Please try again."
 			InitMenu;;
@@ -99,6 +101,7 @@ function Patterncheck(){
 	if [[ $8 -eq 1 && $flag -ne 0 ]]
 	then
 		DeleteData $ipos
+		EditData $9
 	fi
 }		
 
@@ -258,6 +261,7 @@ function EditData(){
 	phone=`echo $var | awk -F"|" '{print $7}'`
 	echo "Name is not changable. Other than that select which data you want to change."
 	echo "<1> Address <2> City <3> State <4> ZIP <5> Phone"
+	echo "Enter anything else to exit."
 	read choice
 	case $choice in
 		1)
@@ -271,10 +275,9 @@ function EditData(){
 		5) 
 			read -p "Enter new Phone number : " phone;;
 		*)
-			echo "Wrong choice. Please try again."
-			EditData
+			DeleteDataMenu;;
 	esac
-	Patterncheck "$firstname" "$lastname" "$address" "$city" "$state" $ZIP $phone 1
+	Patterncheck "$firstname" "$lastname" "$address" "$city" "$state" $ZIP $phone 1 $1
 }
 
 printf "\n"
