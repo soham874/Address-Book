@@ -27,6 +27,7 @@ shopt -s extglob
 declare -a fullNameArray
 
 function Initialize(){
+	unset fullNameArray
 	entryCount=$(cat $inputFile | awk 'END{print NR}')
 	for ((i=1;i<=$entryCount;i++))
 	do
@@ -101,7 +102,7 @@ function Patterncheck(){
 	if [[ $8 -eq 1 && $flag -ne 0 ]]
 	then
 		DeleteData $ipos
-		EditData $9
+		DeleteDataMenu
 	fi
 }		
 
@@ -277,7 +278,7 @@ function EditData(){
 		*)
 			DeleteDataMenu;;
 	esac
-	Patterncheck "$firstname" "$lastname" "$address" "$city" "$state" $ZIP $phone 1 $1
+	Patterncheck "$firstname" "$lastname" "$address" "$city" "$state" $ZIP $phone 1 
 }
 
 printf "\n"
@@ -285,8 +286,8 @@ echo "Welcome to address book !!"
 printf "\n"
 
 echo "Address books located in current directory are :"
-ls +(address)*.tsv
-read -p "Enter name of file you want to work with, or enter a new file name : " inputFile
+ls +(addressbook)*.tsv
+read -p "Enter name of file you want to work with, or enter a new file name. : " inputFile
 if [[ -f $inputFile ]]
 then
 	Initialize
